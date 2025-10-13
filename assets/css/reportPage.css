@@ -1,0 +1,40 @@
+:root {
+  --bg-primary: #f9fafb;
+  --bg-secondary: #ffffff;
+  --bg-accent: #f3f4f6;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-accent: #6b7280;
+  --border-color: #e5e7eb;
+  --input-bg: #ffffff;
+  --input-border: #d1d5db;
+  --primary-button: #2563eb;
+  --primary-button-hover: #1d4ed8;
+  --danger-button: #ef4444;
+  --danger-button-hover: #dc2626;
+  --success: #22c55e;
+}
+
+:root[class~="dark"] {
+  --bg-primary: #111827;
+  --bg-secondary: #1f2937;
+  --bg-accent: #374151;
+  --text-primary: #f9fafb;
+  --text-secondary: #e5e7eb;
+  --text-accent: #9ca3af;
+  --border-color: #374151;
+  --input-bg: #1f2937;
+  --input-border: #4b5563;
+  --primary-button: #3b82f6;
+  --primary-button-hover: #2563eb;
+  --danger-button: #f87171;
+  --danger-button-hover: #ef4444;
+  --success: #4ade80;
+}
+
+/* Tailwind Configuration */
+@layer base {
+  :root {
+    font-family: 'Inter', sans-serif;
+  }
+}
