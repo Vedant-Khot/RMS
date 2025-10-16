@@ -6,6 +6,61 @@
     <title>RMS</title>
 </head>
 <body>
-    
+    <!-- Add your page content here -->
+     <h1>Welcome to RMS</h1>
+     <button onclick="retrive()">fetch</button>
+     <script src="../assets/js/apiService.js"></script>
+    <script>
+        
+// api service instance
+const api = new ApiService('https://jsonplaceholder.typicode.com');
+
+// fetch user data
+async function fetchUserData() {
+    let user= await api.get('/posts')
+        .then(user => console.log('User Data:', user))
+        .catch(err => console.error('Error fetching user data:', err));
+    // check response status code
+    console.log(user);
+    return user;
+
+}
+
+// function to send post request to create a new post
+async function createPost(data) {
+  let newPost = await api.post('/posts', data)
+    .then(newPost => console.log('New Post:', newPost))
+    .catch(err => console.error('Error creating post:', err));
+  console.log(newPost);
+}
+// createPost({ title: 'foo', body: 'bar', userId: 1 });
+// fetchUserData();
+
+
+
+
+async function retrive(){
+   let user= await api.get('/posts')
+        .then(user => {
+
+
+
+            return user;
+        })
+        .catch(err => console.error('Error fetching user data:', err));
+    // check response status code
+    console.log(user);
+  // we will display posts in the index.html page
+  let container = document.createElement('div');
+  // use foreach to loop through posts and display them
+//   console.log("qq",posts[0]);
+    user.forEach(post => {
+        let postDiv = document.createElement('div');
+        postDiv.innerHTML = `<h2>${post.title}</h2><p>${post.body}</p><hr>`;
+        container.appendChild(postDiv);
+    });
+  document.body.appendChild(container);
+}
+    </script>
 </body>
 </html>
