@@ -12,7 +12,9 @@ class TaskManager {
     init() {
         this.bindEvents();
         this.initializeDarkMode();
-        this.loadTasks();
+        // populate assignee list (separate function so you can switch to fetching later)
+        this.populateAssignees(); // fetches assignees and fills select
+        this.loadTasks(); 
     }
 
     // Bind UI event listeners
@@ -88,6 +90,8 @@ class TaskManager {
     showModal() {
         const modal = document.getElementById('taskModal');
         if (modal) {
+            // refresh assignee list each time modal opens (keeps dynamic sources in sync)
+            this.populateAssignees();
             modal.classList.remove('hidden');
             // focus first input for accessibility
             const firstInput = document.getElementById('taskTitle');
@@ -107,11 +111,15 @@ class TaskManager {
 
     // Gather form values from the UI
     getFormData() {
+        const assigneeSelect = document.getElementById('taskAssignee');
+        const assigneeId = assigneeSelect?.value || '';
+        const assigneeName = assigneeSelect?.selectedOptions?.[0]?.text || '';
         return {
             title: document.getElementById('taskTitle')?.value || '',
             description: document.getElementById('taskDescription')?.value || '',
             dueDate: document.getElementById('taskDueDate')?.value || '',
-            priority: document.getElementById('taskPriority')?.value || 'low'
+            priority: document.getElementById('taskPriority')?.value || 'low',
+            assignee: assigneeId ? { id: assigneeId, name: assigneeName } : null
         };
     }
 
@@ -123,6 +131,7 @@ class TaskManager {
             description: formData.description,
             dueDate: formData.dueDate,
             priority: formData.priority,
+            assignee: formData.assignee || null,
             completed: false,
             createdAt: new Date().toISOString()
         };
@@ -206,6 +215,7 @@ class TaskManager {
                         <div>
                             <h3 class="text-lg font-semibold ${task.completed ? 'line-through' : ''}">${task.title}</h3>
                             <p class="text-secondary text-sm">${task.description}</p>
+                            ${task.assignee ? `<div class="text-sm text-accent mt-1">Assigned to: <strong class="text-secondary">${task.assignee.name}</strong></div>` : ''}
                         </div>
                     </div>
                     <div class="flex items-center space-x-4">
@@ -305,6 +315,42 @@ class TaskManager {
             taskList.appendChild(divider);
 
             renderPriorityGroups(completed, true, true);
+        }
+    }
+
+    // -- Assignee provider (separated) --
+    // fetchAssignees: placeholder for future fetching. Returns Promise<array<{id,name}>>.
+    async fetchAssignees() {
+        // replace this with a real fetch later; keep as promise for compatibility
+        return Promise.resolve([
+            { id: 'u1', name: 'Alice' },
+            { id: 'u2', name: 'Bob' },
+            { id: 'u3', name: 'Charlie' }
+        ]);
+    }
+
+    // populateAssignees: fills the select with options from fetchAssignees 
+    // Add dynamic fetching and error handling 
+    async populateAssignees() {
+        const select = document.getElementById('taskAssignee');
+        if (!select) return;
+        // keep current selection if any
+        const current = select.value || '';
+        // clear except keep default "Unassigned"
+        select.innerHTML = `<option value="">Unassigned</option>`;
+        try {
+            const list = await this.fetchAssignees();
+            list.forEach(m => {
+                const opt = document.createElement('option');
+                opt.value = m.id;
+                opt.textContent = m.name;
+                select.appendChild(opt);
+            });
+            // restore selection when possible
+            if (current) select.value = current;
+        } catch (err) {
+            // silently fail — UI stays with Unassigned
+            console.error('Failed to populate assignees', err);
         }
     }
 }

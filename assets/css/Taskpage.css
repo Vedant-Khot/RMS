@@ -23,9 +23,11 @@
   --text-primary: #f9fafb;
   --text-secondary: #e5e7eb;
   --text-accent: #9ca3af;
-  --border-color: #374151;
+  /* Use translucent whites for borders in dark mode for subtle separation */
+  --border-color: rgba(255,255,255,0.06);
   --input-bg: #1f2937;
-  --input-border: #4b5563;
+  /* inputs should match border subtlety */
+  --input-border: rgba(255,255,255,0.06);
   --primary-button: #3b82f6;
   --primary-button-hover: #2563eb;
   --danger-button: #f87171;
@@ -53,6 +55,7 @@ body {
 
 .task-card:hover {
     box-shadow: 0 15px 15px -1px rgba(0, 0, 0, 0.1);
+    
 }
 
 .task-card.completed {
@@ -111,8 +114,8 @@ body {
 
 /* Dark mode adjustments for better contrast */
 :root[class~="dark"] .priority-badge {
-  box-shadow: none;
   border-color: rgba(255,255,255,0.04);
+  background-color: rgba(255,255,255,0.02);
 }
 :root[class~="dark"] .priority-high { background-color: rgba(241,245,249,0.03); color: #fecaca; }
 :root[class~="dark"] .priority-medium { background-color: rgba(241,245,249,0.03); color: #fcd34d; }
@@ -212,7 +215,14 @@ input:focus, textarea:focus, select:focus {
 /* Slightly subtler shadow in dark mode */
 :root[class~="dark"] .task-item:hover,
 :root[class~="dark"] .task-card:hover {
-  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+  /* softer, less contrast shadow to avoid harsh edges on dark bg */
+  box-shadow: 0 10px 24px rgba(2,6,23,0.28);
+}
+
+/* Apply softer dark-mode hover shadow and modal shadow */
+:root[class~="dark"] .modal-content {
+  /* gentler modal elevation in dark mode */
+  box-shadow: 0 8px 20px rgba(2,6,23,0.26);
 }
 
 /* Respect users who prefer reduced motion */
@@ -263,4 +273,32 @@ input:focus, textarea:focus, select:focus {
 /* make overlay clicks clear and mobile padding handled */
 #taskModal {
     box-sizing: border-box;
+}
+
+/* Utility mappings so HTML classes pick up theme variables */
+.bg-primary { background-color: var(--bg-primary) !important; }
+.bg-secondary { background-color: var(--bg-secondary) !important; }
+.bg-accent { background-color: var(--bg-accent) !important; }
+
+.text-primary { color: var(--text-primary) !important; }
+.text-secondary { color: var(--text-secondary) !important; }
+.text-accent { color: var(--text-accent) !important; }
+
+.border-input { border-color: var(--input-border) !important; }
+.border-color { border-color: var(--border-color) !important; }
+
+/* Ensure modal/container shadows and borders use subtler values in dark */
+.bg-secondary.shadow-lg {
+  box-shadow: 0 8px 24px rgba(2,6,23,0.06);
+}
+
+.assignee {
+  font-size: 0.875rem;
+  color: var(--text-secondary);
+}
+
+#taskAssignee {
+  /* subtle width/appearance helpers (inherits existing input styles) */
+  appearance: none;
+  -webkit-appearance: none;
 }

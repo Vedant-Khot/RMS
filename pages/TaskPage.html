@@ -69,6 +69,14 @@
                                 <label class="block text-sm font-medium text-primary mb-1">Description</label>
                                 <textarea id="taskDescription" rows="3" class="w-full px-3 py-2 bg-accent border border-input rounded-md"></textarea>
                             </div>
+                            <!-- For assigning tasks to member of particular project  -->
+                            <div>
+                                <label class="block text-sm font-medium text-primary mb-1">Assignee</label>
+                                <select id="taskAssignee" class="w-full px-3 py-2 bg-accent border border-input rounded-md">
+                                    <option value="">Unassigned</option>
+                                    <!-- options will be populated dynamically -->
+                                </select>
+                            </div>
                             <div>
                                 <label class="block text-sm font-medium text-primary mb-1">Due Date</label>
                                 <input type="date" id="taskDueDate" class="w-full px-3 py-2 bg-accent border border-input rounded-md">
