@@ -1,6 +1,7 @@
 // 1. Import Packages
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors'); // <-- 1. IMPORT THE CORS PACKAGE
 require('dotenv').config();
 // const Task = require('./models/Task'); // Your model is already imported
 
@@ -9,6 +10,8 @@ const app = express();
 
 // 3. Add Middleware
 app.use(express.json());
+
+app.use(cors()); // <-- 2. USE THE CORS MIDDLEWARE
 
 // 4. Define Port
 const PORT = process.env.PORT || 3000;
