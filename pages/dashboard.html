@@ -1,0 +1,735 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light color-blue">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RMS - Report Management System</title>
+    <meta name="description" content="Modern Report Management System for team collaboration and project tracking">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/typography.css">
+    <link rel="stylesheet" href="../assets/css/buttons.css">
+    <link rel="stylesheet" href="../assets/css/forms.css">
+    <link rel="stylesheet" href="../assets/css/cards.css">
+    <link rel="stylesheet" href="../assets/css/modals.css">
+    <link rel="stylesheet" href="../assets/css/navigation.css">
+    <link rel="stylesheet" href="../assets/css/notifications.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Third-party Libraries -->
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+</head>
+<body class="rms-app">
+    <!-- Navigation -->
+    <nav class="navbar" id="mainNavbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <button class="btn btn-secondary hamburger-menu" id="hamburgerMenu" title="Menu">
+                    <i class="fas fa-bars"></i>
+                </button>
+                <h1 class="brand-title" id="brandTitle" title="Go to Dashboard">RMS</h1>
+                <span class="brand-subtitle">Report Management System</span>
+            </div>
+
+            <div class="navbar-menu" id="navbarMenu">
+                <div class="navbar-user">
+                    <div class="user-avatar" id="userAvatar"></div>
+                    <span class="user-name" id="userName"></span>
+                </div>
+
+            <div class="navbar-actions">
+
+                        <button class="btn btn-secondary" id="themeToggle" title="Toggle Theme">
+                            <i class="fas fa-moon"></i>
+                        </button>
+                    <button class="btn btn-secondary" id="notificationsBtn" title="Notifications">
+                        <i class="fas fa-bell"></i>
+                        <span class="notification-badge" id="notificationBadge"></span>
+                    </button>
+
+                    <!-- Notifications Panel -->
+                    <div class="notifications-panel" id="notificationsPanel">
+                        <div class="notifications-header">
+                            <div class="notifications-actions">
+                                <button class="btn btn-ghost btn-sm" id="clearAllBtn" title="Clear all notifications">
+                                    Clear All
+                                </button>
+                                <button class="btn btn-ghost btn-sm" id="markAllReadBtn" title="Mark all as read">
+                                    Mark as Read
+                                </button>
+                            </div>
+                        </div>
+                        <div class="notifications-body" id="notificationsList">
+                            <!-- Notifications will be loaded here -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+
+
+    <!-- Profile Sidebar -->
+    <div id="profileSidebar" class="profile-sidebar">
+        <div class="sidebar-overlay" id="profileOverlay"></div>
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <h3>User Profile</h3>
+                <button class="btn btn-ghost" id="closeProfileSidebar" title="Close Profile">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-body">
+                <!-- Profile Info Section -->
+                <div class="sidebar-section profile-info">
+                    <div class="user-display">
+                        <div class="sidebar-user-avatar" id="sidebarUserAvatar"></div>
+                        <div class="user-details">
+                            <h4 id="sidebarUserName"></h4>
+                            <span id="sidebarUserRole"></span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Settings Section -->
+                <div class="sidebar-section settings">
+                    <h4>User Settings</h4>
+                    <div class="setting-group">
+                        <label class="setting-item">
+                            <input type="checkbox" id="sidebarAutoSave">
+                            <span class="setting-label">Auto-save data</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-label-block">Theme Mode</label>
+                        <div class="theme-options">
+                            <label class="setting-item radio">
+                                <input type="radio" name="sidebarTheme" value="light">
+                                <span class="setting-label">Light</span>
+                            </label>
+                            <label class="setting-item radio">
+                                <input type="radio" name="sidebarTheme" value="dark">
+                                <span class="setting-label">Dark</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-label-block" for="sidebarColor">Accent Color</label>
+                        <select class="form-select" id="sidebarColor">
+                            <option value="red">Red</option>
+                            <option value="orange">Orange</option>
+                            <option value="yellow">Yellow</option>
+                            <option value="green">Green</option>
+                            <option value="blue">Blue</option>
+                            <option value="indigo">Indigo</option>
+                            <option value="violet">Violet</option>
+                        </select>
+                    </div>
+                </div>
+
+                <!-- Notification Settings Section -->
+                <div class="sidebar-section settings">
+                    <h4>Notification Settings</h4>
+
+                    <div class="setting-group">
+                        <label class="setting-label-block">Email Address</label>
+                        <input type="email" class="form-input" id="sidebarUserEmail" placeholder="Enter your email address" style="margin-top: var(--space-1);">
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-label-block">Phone Number (for SMS)</label>
+                        <input type="tel" class="form-input" id="sidebarUserPhone" placeholder="(XXX) XXX-XXXX" style="margin-top: var(--space-1);">
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-item">
+                            <input type="checkbox" id="sidebarEmailNotifications">
+                            <span class="setting-label">Enable email notifications</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-item">
+                            <input type="checkbox" id="sidebarSMSNotifications">
+                            <span class="setting-label">Enable SMS notifications</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-item">
+                            <input type="checkbox" id="sidebarBrowserNotifications">
+                            <span class="setting-label">Enable browser notifications</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-item">
+                            <input type="checkbox" id="sidebarDeadlineNotifications">
+                            <span class="setting-label">Notify about deadlines</span>
+                        </label>
+                    </div>
+
+                    <div class="setting-group">
+                        <label class="setting-item">
+                            <input type="checkbox" id="sidebarOverdueNotifications">
+                            <span class="setting-label">Notify about overdue items</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Account Management -->
+                <div class="sidebar-section account">
+                    <h4>Account Management</h4>
+                    <div class="account-info">
+                        <div class="account-stat">
+                            <span class="stat-label">Projects Created</span>
+                            <span class="stat-value" id="projectsCount">0</span>
+                        </div>
+                        <div class="account-stat">
+                            <span class="stat-label">Tasks Completed</span>
+                            <span class="stat-value" id="tasksCompleted">0</span>
+                        </div>
+                    </div>
+
+                    <div class="account-actions">
+                        <button class="sidebar-btn danger" id="logoutBtn">
+                            <i class="fas fa-sign-out-alt"></i>
+                            Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Sidebar -->
+    <div id="navigationSidebar" class="navigation-sidebar">
+        <div class="sidebar-overlay" id="navOverlay"></div>
+        <div class="sidebar-content">
+            <div class="sidebar-header">
+                <h3>RMS Navigation</h3>
+                <button class="btn btn-ghost" id="closeNavigationSidebar" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="sidebar-body">
+                <div class="sidebar-section nav-links">
+                    <h4>Main Sections</h4>
+                    <div class="nav-buttons">
+                        <button class="nav-btn" data-nav="projects">
+                            <i class="fas fa-project-diagram"></i>
+                            Projects
+                        </button>
+                        <button class="nav-btn" data-nav="members">
+                            <i class="fas fa-users"></i>
+                            Team Members
+                        </button>
+                        <button class="nav-btn" data-nav="tasks">
+                            <i class="fas fa-tasks"></i>
+                            Tasks
+                        </button>
+                        <button class="nav-btn" data-nav="analytics">
+                            <i class="fas fa-chart-bar"></i>
+                            Analytics
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section quick-access">
+                    <h4>Quick Access</h4>
+                    <div class="quick-buttons">
+                        <button class="quick-btn" id="quickCreateProject">
+                            <i class="fas fa-plus"></i>
+                            New Project
+                        </button>
+                        <button class="quick-btn" id="quickAddTask">
+                            <i class="fas fa-plus-square"></i>
+                            Add Task
+                        </button>
+                        <button class="quick-btn" id="quickNotifications">
+                            <i class="fas fa-bell"></i>
+                            Notifications
+                        </button>
+                    </div>
+                </div>
+
+                <div class="sidebar-section app-info">
+                    <h4>About RMS</h4>
+                    <p>Report Management System for team collaboration and project tracking.</p>
+                    <div class="app-version">Version 1.0.0</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Login/Authentication temporarily removed - will be added later -->
+
+    <!-- Main Content -->
+    <main class="main-content" id="mainContent">
+        <!-- Tab Navigation -->
+        <div class="tab-navigation" id="tabNavigation">
+            <div class="tab-container">
+                <button class="tab-btn active" data-tab="projects">
+                    <i class="fas fa-project-diagram"></i>
+                    <span>Projects</span>
+                </button>
+                <button class="tab-btn" data-tab="members">
+                    <i class="fas fa-users"></i>
+                    <span>Members</span>
+                </button>
+                <button class="tab-btn" data-tab="tasks">
+                    <i class="fas fa-tasks"></i>
+                    <span>Tasks</span>
+                </button>
+                <button class="tab-btn" data-tab="analytics">
+                    <i class="fas fa-chart-bar"></i>
+                    <span>Analytics</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Tab Content -->
+        <div class="tab-content-container" id="tabContent">
+            <!-- Projects Tab -->
+            <div class="tab-pane active" id="projectsTab">
+                <div class="content-header">
+                    <h2 class="content-title">Projects Dashboard</h2>
+                    <button class="btn btn-primary" id="createProjectBtn">
+                        <i class="fas fa-plus"></i>
+                        Create Project
+                    </button>
+                </div>
+
+                <div class="content-body">
+                    <div class="projects-grid" id="projectsGrid">
+                        <!-- Projects will be loaded here -->
+                    </div>
+
+                    <div class="empty-state" id="projectsEmptyState">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <h3>No projects yet</h3>
+                        <p>Get started by creating your first project.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Members Tab -->
+            <div class="tab-pane" id="membersTab">
+                <div class="content-header">
+                    <h2 class="content-title">Team Members</h2>
+                    <button class="btn btn-primary" id="manageRolesBtn">
+                        <i class="fas fa-user-cog"></i>
+                        Manage Roles
+                    </button>
+                </div>
+
+                <div class="content-body">
+                    <div class="members-grid" id="membersGrid">
+                        <!-- Members will be loaded here -->
+                    </div>
+
+                    <div class="empty-state" id="membersEmptyState">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <h3>No members yet</h3>
+                        <p>Add team members to get started.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Tasks Tab -->
+            <div class="tab-pane" id="tasksTab">
+                <div class="content-header">
+                    <h2 class="content-title">Daily Tasks</h2>
+                    <button class="btn btn-primary" id="createTaskBtn">
+                        <i class="fas fa-plus"></i>
+                        Add Task
+                    </button>
+                </div>
+
+                <div class="content-body">
+                    <div class="tasks-grid" id="tasksContainer">
+                        <!-- Tasks will be loaded here -->
+                    </div>
+
+                    <div class="empty-state" id="tasksEmptyState">
+                        <div class="empty-state-icon">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <h3>No tasks yet</h3>
+                        <p>Create tasks to track your daily work.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Analytics Tab -->
+            <div class="tab-pane" id="analyticsTab">
+                <div class="content-header">
+                    <h2 class="content-title">Analytics Dashboard</h2>
+                    <div class="date-filter">
+                        <select class="form-select" id="analyticsPeriod">
+                            <option value="7">Last 7 days</option>
+                            <option value="30">Last 30 days</option>
+                            <option value="90">Last 90 days</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="content-body">
+                    <div class="analytics-grid" id="analyticsGrid">
+                        <!-- Analytics will be loaded here -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Modals -->
+    <!-- Project Modal -->
+    <div class="modal-overlay" id="projectModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-plus-circle"></i> Create New Project</h2>
+                <button class="modal-close" data-modal="projectModal" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="modal-form" id="projectForm">
+                    <div class="form-group">
+                        <label class="form-label" for="projectName">Project Name *</label>
+                        <input type="text" class="form-input" id="projectName" placeholder="Enter a unique project name" required>
+                        <div class="form-error" id="projectNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="projectDescription">Description *</label>
+                        <textarea class="form-textarea" id="projectDescription" rows="4" placeholder="Provide a detailed description of the project goals, scope, and deliverables..." required></textarea>
+                        <div class="form-error" id="projectDescriptionError"></div>
+                    </div>
+
+                    <!-- Modern Team Members Selection -->
+                    <div class="form-group">
+                        <label class="form-label" for="projectMemberSearch">Team Members</label>
+                        <div class="multi-select-container">
+                            <input type="text" class="multi-search-input" id="projectMemberSearch" placeholder="Search and select team members...">
+                            <div class="multi-select-dropdown" id="projectMemberDropdown">
+                                <div class="multi-select-header">
+                                    <button class="btn-link" id="selectAllMembers">Select All</button>
+                                    <button class="btn-link" id="clearAllMembers">Clear All</button>
+                                </div>
+                                <div class="multi-select-options" id="projectMemberOptions">
+                                    <!-- Options will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                        <div class="selected-members-list" id="selectedProjectMembers">
+                            <!-- Selected members chips will appear here -->
+                        </div>
+                        <small class="form-help">You will automatically be added as the project leader. Select additional team members to invite.</small>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="projectDeadline">Deadline *</label>
+                            <input type="date" class="form-input" id="projectDeadline" required>
+                            <div class="form-error" id="projectDeadlineError"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="projectPriority">Priority Level</label>
+                            <select class="form-select" id="projectPriority">
+                                <option value="normal">Normal</option>
+                                <option value="low">Low</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="projectStatus">Initial Status</label>
+                            <select class="form-select" id="projectStatus">
+                                <option value="Planning">Planning</option>
+                                <option value="In Progress">In Progress</option>
+                                <option value="Review">Review</option>
+                                <option value="On Hold">On Hold</option>
+                                <option value="Completed">Completed</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="projectBudget">Budget (Optional)</label>
+                            <input type="number" class="form-input" id="projectBudget" placeholder="0.00" min="0" step="0.01">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="projectTags">Tags (Optional)</label>
+                        <input type="text" class="form-input" id="projectTags" placeholder="web, mobile, design, development" data-role="tags">
+                        <small style="color: var(--color-on-surface-variant); font-size: var(--font-size-xs); margin-top: var(--space-1);">Separate tags with commas</small>
+                    </div>
+
+
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="modal-footer-info">
+                    <small style="color: var(--color-on-surface-variant);">
+                        <i class="fas fa-info-circle"></i>
+                        You will be set as the project leader
+                    </small>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close" data-modal="projectModal">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" form="projectForm" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Create Project
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Task Modal -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-tasks"></i> Add New Task</h2>
+                <button class="modal-close" data-modal="taskModal" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="modal-form" id="taskForm">
+                    <div class="form-group">
+                        <label class="form-label" for="taskProject">Project *</label>
+                        <select class="form-select" id="taskProject" required>
+                            <option value="">Select a project...</option>
+                        </select>
+                        <div class="form-error" id="taskProjectError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="taskTitle">Task Title *</label>
+                        <input type="text" class="form-input" id="taskTitle" placeholder="Brief task summary" required>
+                        <div class="form-error" id="taskTitleError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="taskDescription">Detailed Description</label>
+                        <textarea class="form-textarea" id="taskDescription" rows="3" placeholder="Provide detailed task requirements and instructions..."></textarea>
+                        <div class="form-error" id="taskDescriptionError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="taskAssignedTo">Assign To *</label>
+                        <select class="form-select" id="taskAssignedTo" required>
+                            <option value="">Select a team member...</option>
+                        </select>
+                        <div class="form-error" id="taskAssignedToError"></div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="taskPriority">Priority</label>
+                            <select class="form-select" id="taskPriority">
+                                <option value="normal">Normal</option>
+                                <option value="low">Low</option>
+                                <option value="high">High</option>
+                                <option value="urgent">Urgent</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label" for="taskDate">Due Date</label>
+                            <input type="date" class="form-input" id="taskDate">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label class="form-label" for="taskHours">Estimated Hours</label>
+                            <input type="number" class="form-input" id="taskHours" step="0.5" min="0.5" max="24" placeholder="4.0">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="taskTags">Tags (Optional)</label>
+                        <input type="text" class="form-input" id="taskTags" placeholder="urgent, backend, testing" data-role="tags">
+                        <small style="color: var(--color-on-surface-variant); font-size: var(--font-size-xs); margin-top: var(--space-1);">Separate tags with commas</small>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="modal-footer-info">
+                    <small style="color: var(--color-on-surface-variant);">
+                        <i class="fas fa-clock"></i>
+                        Estimated completion time will be tracked
+                    </small>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close" data-modal="taskModal">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" form="taskForm" class="btn btn-primary">
+                        <i class="fas fa-plus"></i>
+                        Create Task
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Role Management Modal -->
+    <div class="modal-overlay" id="roleModal">
+        <div class="modal-container large">
+            <div class="modal-header">
+                <h2>Manage Roles</h2>
+                <button class="btn btn-ghost modal-close" data-modal="roleModal">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="roles-container" id="rolesContainer">
+                    <!-- Roles will be loaded here -->
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-close" data-modal="roleModal">Cancel</button>
+                <button class="btn btn-primary" id="saveRolesBtn">Save Changes</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Member Edit Modal -->
+    <div class="modal-overlay" id="memberModal">
+        <div class="modal-container">
+            <div class="modal-header">
+                <h2><i class="fas fa-user-edit"></i> Edit Member</h2>
+                <button class="modal-close" data-modal="memberModal" title="Close">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <form class="modal-form" id="memberForm">
+                    <div class="form-group">
+                        <label class="form-label" for="memberName">Full Name *</label>
+                        <input type="text" class="form-input" id="memberName" placeholder="Enter member's full name" required>
+                        <div class="form-error" id="memberNameError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="memberEmail">Email Address *</label>
+                        <input type="email" class="form-input" id="memberEmail" placeholder="Enter member's email address" required>
+                        <div class="form-error" id="memberEmailError"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label" for="memberRole">Role</label>
+                        <select class="form-select" id="memberRole">
+                            <option value="member">Member</option>
+                            <option value="manager">Manager</option>
+                            <option value="admin">Administrator</option>
+                        </select>
+                        <small style="color: var(--color-on-surface-variant); font-size: var(--font-size-xs); margin-top: var(--space-1);">
+                            Only administrators can change roles
+                        </small>
+                    </div>
+                </form>
+            </div>
+
+            <div class="modal-footer">
+                <div class="modal-footer-info">
+                    <small style="color: var(--color-on-surface-variant);">
+                        <i class="fas fa-info-circle"></i>
+                        Changes will be saved immediately
+                    </small>
+                </div>
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary modal-close" data-modal="memberModal">
+                        <i class="fas fa-times"></i>
+                        Cancel
+                    </button>
+                    <button type="submit" form="memberForm" class="btn btn-primary">
+                        <i class="fas fa-save"></i>
+                        Update Member
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer">
+        <!-- Toasts will be added here -->
+    </div>
+
+    <!-- Loading Spinner -->
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+    </div>
+
+    <!-- Scripts - Load in dependency order -->
+    <script src="../assets/js/users.js"></script>
+    <script src="../assets/js/User.js"></script>
+    <script src="../assets/js/Project.js"></script>
+    <script src="../assets/js/Member.js"></script>
+    <script src="../assets/js/Task.js"></script>
+    <script src="../assets/js/Notification.js"></script>
+    <script src="../assets/js/StorageService.js"></script>
+    <script src="../assets/js/ValidationService.js"></script>
+    <script src="../assets/js/FormValidator.js"></script>
+    <script src="../assets/js/apiservices.js"></script>
+    <script src="../assets/js/NotificationService.js"></script>
+    <script src="../assets/js/members.js"></script>
+    <script src="../assets/js/helpers.js"></script>
+    <script src="../assets/js/constants.js"></script>
+    <script src="../assets/js/formatters.js"></script>
+    <script src="../assets/js/EmailService.js"></script>
+    <script src="../assets/js/AppController.js"></script>
+    <script src="../assets/js/ProjectController.js"></script>
+    <script src="../assets/js/MemberController.js"></script>
+    <script src="../assets/js/TaskController.js"></script>
+    <script src="../assets/js/AnalyticsController.js"></script>
+    <script src="../assets/js/ProjectView.js"></script>
+    <script src="../assets/js/MemberView.js"></script>
+    <script src="../assets/js/TaskView.js"></script>
+    <script src="../assets/js/AnalyticsView.js"></script>
+    <script src="../assets/js/app.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,1125 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Member Manager - RMS</title>
+    <meta name="description" content="Member and User Management System for RMS">
+
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="../assets/css/reset.css">
+    <link rel="stylesheet" href="../assets/css/variables.css">
+    <link rel="stylesheet" href="../assets/css/typography.css">
+    <link rel="stylesheet" href="../assets/css/buttons.css">
+    <link rel="stylesheet" href="../assets/css/forms.css">
+    <link rel="stylesheet" href="../assets/css/cards.css">
+    <link rel="stylesheet" href="../assets/css/modals.css">
+    <link rel="stylesheet" href="../assets/css/navigation.css">
+    <link rel="stylesheet" href="../assets/css/animations.css">
+    <link rel="stylesheet" href="../assets/css/responsive.css">
+    <link rel="stylesheet" href="../assets/css/main.css">
+
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="rms-app">
+    <!-- Navigation -->
+    <nav class="navbar" id="mainNavbar">
+        <div class="navbar-container">
+            <div class="navbar-brand">
+                <h1 class="brand-title">Member Manager</h1>
+                <span class="brand-subtitle">RMS User & Team Management</span>
+            </div>
+
+            <div class="navbar-actions">
+                <button class="btn btn-secondary" onclick="window.location.href='index.html'">
+                    <i class="fas fa-arrow-left"></i>
+                    Back to RMS
+                </button>
+                <button class="btn btn-secondary" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="main-content">
+        <div class="container">
+            <!-- Current User Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-user-circle"></i> Current User Setup</h2>
+                    <p>Who is currently logged into the RMS system</p>
+                </div>
+
+                <div class="section-body">
+                    <div class="member-setup-card">
+                        <div class="user-display">
+                            <div class="user-avatar" id="currentUserAvatar">
+                                <i class="fas fa-user"></i>
+                            </div>
+                            <div class="user-details">
+                                <h3 id="currentUserName">No user set</h3>
+                                <span id="currentUserRole">Role: Not set</span>
+                            </div>
+                        </div>
+
+                        <form class="user-setup-form" id="currentUserForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="userName">Full Name *</label>
+                                    <input type="text" class="form-input" id="userName" placeholder="e.g., Yash Developer" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="userEmail">Email Address *</label>
+                                    <input type="email" class="form-input" id="userEmail" placeholder="user@company.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="userRole">Role</label>
+                                    <select class="form-select" id="userRole">
+                                        <option value="admin">Admin</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="member" selected>Member</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i>
+                                    Save Current User
+                                </button>
+                                <button type="button" class="btn btn-ghost" onclick="loadRandomUser()">
+                                    <i class="fas fa-random"></i>
+                                    Random  User
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Team Members Section -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-users"></i> Team Members Management</h2>
+                    <p>Add  team members to your RMS projects</p>
+                </div>
+
+                <div class="section-body">
+                    <!-- Add Member Form -->
+                    <div class="member-form-card">
+                        <h3>Add New Team Member</h3>
+                        <form class="team-member-form" id="teamMemberForm">
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label" for="memberName">Full Name *</label>
+                                    <input type="text" class="form-input" id="memberName" placeholder="e.g., Priya Sharma" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="memberEmail">Email Address *</label>
+                                    <input type="email" class="form-input" id="memberEmail" placeholder="member@company.com" required>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label" for="memberRole">Role</label>
+                                    <select class="form-select" id="memberRole">
+                                        <option value="member" selected>Member</option>
+                                        <option value="manager">Manager</option>
+                                        <option value="admin">Admin</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="form-actions">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-plus"></i>
+                                    Add Member
+                                </button>
+                                <button type="button" class="btn btn-secondary" onclick="addRandomMember()">
+                                    <i class="fas fa-magic"></i>
+                                    Add Random  Member
+                                </button>
+                                <button type="button" class="btn btn-info" onclick="addMultipleRandomMembers()">
+                                    <i class="fas fa-users"></i>
+                                    Add 5 Random Members
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Current Team Members -->
+                    <div class="members-list-card">
+                        <div class="list-header">
+                            <h3>Team Members <span class="count" id="membersCount">(0)</span></h3>
+                            <button class="btn btn-danger btn-sm" onclick="clearAllMembers()">
+                                <i class="fas fa-trash"></i>
+                                Clear All
+                            </button>
+                        </div>
+
+                        <div class="members-grid" id="teamMembersGrid">
+                            <div class="empty-state">
+                                <div class="empty-state-icon">
+                                    <i class="fas fa-users"></i>
+                                </div>
+                                <h4>No team members yet</h4>
+                                <p>Add some team members to get started!</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="content-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-tools"></i> Quick Actions</h2>
+                    <p>Useful shortcuts and bulk operations</p>
+                </div>
+
+                <div class="section-body">
+                    <div class="quick-actions-grid">
+                        <button class="quick-action-card" onclick="addTeamPreset()">
+                            <div class="action-icon">
+                                <i class="fas fa-building"></i>
+                            </div>
+                            <div class="action-content">
+                                <h4>Full  Team</h4>
+                                <p>Add a complete  development team (Designer, Developers, Manager)</p>
+                            </div>
+                        </button>
+
+                        <button class="quick-action-card" onclick="exportMembersData()">
+                            <div class="action-icon">
+                                <i class="fas fa-download"></i>
+                            </div>
+                            <div class="action-content">
+                                <h4>Export Data</h4>
+                                <p>Download members data as JSON file</p>
+                            </div>
+                        </button>
+
+                        <button class="quick-action-card" onclick="importMembersData()">
+                            <div class="action-icon">
+                                <i class="fas fa-upload"></i>
+                            </div>
+                            <div class="action-content">
+                                <h4>Import Data</h4>
+                                <p>Load members from JSON file</p>
+                            </div>
+                        </button>
+
+                        <button class="quick-action-card danger" onclick="resetToDefaults()">
+                            <div class="action-icon">
+                                <i class="fas fa-undo"></i>
+                            </div>
+                            <div class="action-content">
+                                <h4>Reset to Default</h4>
+                                <p>Clear all data and start fresh</p>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Toast Notifications -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Hidden File Input for Import -->
+    <input type="file" id="importFileInput" accept=".json" style="display: none;" onchange="handleImport(event)">
+
+    <!-- Scripts -->
+    <script>
+        // Theme handling
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.className;
+            const newTheme = currentTheme === 'theme-light' ? 'theme-dark' : 'theme-light';
+            html.className = newTheme;
+
+            const themeToggle = document.getElementById('themeToggle');
+            if (themeToggle) {
+                const icon = themeToggle.querySelector('i');
+                if (icon) {
+                    icon.className = newTheme === 'theme-dark' ? 'fas fa-sun' : 'fas fa-moon';
+                }
+            }
+
+            // Save theme preference
+            localStorage.setItem('memberManager_theme', newTheme);
+        }
+
+        // Initialize theme
+        const savedTheme = localStorage.getItem('memberManager_theme') || 'theme-light';
+        document.documentElement.className = savedTheme;
+        const themeToggle = document.getElementById('themeToggle');
+        if (themeToggle) {
+            themeToggle.addEventListener('click', toggleTheme);
+            const icon = themeToggle.querySelector('i');
+            if (icon) {
+                icon.className = savedTheme === 'theme-dark' ? 'fas fa-sun' : 'fas fa-moon';
+            }
+        }
+    </script>
+    <script>
+        // Member data management
+        const CURRENT_USER_KEY = 'rms_current_user';
+        const TEAM_MEMBERS_KEY = 'rms_team_members';
+
+        //  names data
+        const _FIRST_NAMES = [
+            'Aarav', 'Aryan', 'Arjun', 'Vihaan', 'Vivaan', 'Yash', 'Yash', 'Yash', // Yash first as preferred
+            'Advik', 'Kabir', 'Riyan', 'Arav', 'Ayaan', 'Dhruv', 'Ishaan', 'Veer',
+            'Sai', 'Reyansh', 'Mohammed', 'Shaurya', 'Rudra', 'Atharv', 'Krishna', 'Pranav',
+            'Aarush', 'Aarav', 'Kartik', 'Shivansh', 'Harsh', 'Kian', 'Neel', 'Aryan',
+            'Priya', 'Ananya', 'Aadhya', 'Pari', 'Anika', 'Navya', 'Ira', 'Sara',
+            'Aaradhya', 'Anvi', 'Diya', 'Myra', 'Saanvi', 'Shanvi', 'Amara', 'Kiara',
+            'Aanya', 'Anaya', 'Eva', 'Kiara', 'Mira', 'Neha', 'Riya', 'Saisha',
+            'Veda', 'Zara', 'Gauri', 'Ishika', 'Meera', 'Shriya', 'Tanvi', 'Yami'
+        ];
+
+        const _LAST_NAMES = [
+            'Sharma', 'Verma', 'Gupta', 'Singh', 'Yadav', 'Kumar', 'Patel', 'Jain',
+            'Agarwal', 'Bansal', 'Chaudhary', 'Garg', 'Jha', 'Khandelwal', 'Mishra',
+            'Nair', 'Pandey', 'Rao', 'Seth', 'Tiwari', 'Upadhyay', 'Verma', 'Yadav',
+            'Bhat', 'Desai', 'Fernandes', 'Gowda', 'Hegde', 'Iyer', 'Joshi', 'Kulkarni',
+            'Menon', 'Namboothiri', 'Pillai', 'Ranganathan', 'Shetty', 'Subramanian',
+            'Trivedi', 'Uppal', 'Venkatesh', 'Walia', 'Xenon', 'Yohannan', 'Zaveri',
+            'Acharya', 'Bhatia', 'Chatterjee', 'Dutta', 'Ganguly', 'Haldar', 'Mitra',
+            'Roy', 'Sen', 'Thakur', 'Varma', 'Basu', 'Chakrabarti', 'Ghosh', 'Lahiri',
+            'Majumdar', 'Nandi', 'Paul', 'Ray', 'Saha', 'Sarkar', 'Talukdar'
+        ];
+
+        // Load data from localStorage
+        function loadData() {
+            return {
+                currentUser: JSON.parse(localStorage.getItem(CURRENT_USER_KEY)) || null,
+                teamMembers: JSON.parse(localStorage.getItem(TEAM_MEMBERS_KEY)) || []
+            };
+        }
+
+        // Save data to localStorage
+        function saveData(data) {
+            localStorage.setItem(CURRENT_USER_KEY, JSON.stringify(data.currentUser));
+            localStorage.setItem(TEAM_MEMBERS_KEY, JSON.stringify(data.teamMembers));
+            // Also save to RMS app storage
+            updateRMSData(data);
+        }
+
+        // Update RMS app data
+        function updateRMSData(data) {
+            // Update current user in RMS app
+            if (data.currentUser) {
+                const rmsData = JSON.parse(localStorage.getItem('rms_data')) || {};
+                rmsData.currentUser = data.currentUser;
+                // Also update users array to include current user
+                rmsData.users = rmsData.users || [];
+                // Make sure current user is in users array
+                const userExists = rmsData.users.some(u => u.id === data.currentUser.id);
+                if (!userExists) {
+                    rmsData.users.unshift(data.currentUser); // Add current user first
+                }
+                localStorage.setItem('rms_data', JSON.stringify(rmsData));
+            }
+
+            // Update team members in RMS app
+            const rmsData = JSON.parse(localStorage.getItem('rms_data')) || {};
+            rmsData.teamMembers = data.teamMembers;
+            // Also add team members to users array for full compatibility
+            rmsData.users = rmsData.users || [];
+            if (rmsData.currentUser) {
+                rmsData.users = [rmsData.currentUser]; // Start with current user
+            }
+            // Add team members to users array
+            data.teamMembers.forEach(member => {
+                const exists = rmsData.users.some(u => u.id === member.id);
+                if (!exists) {
+                    rmsData.users.push(member);
+                }
+            });
+            localStorage.setItem('rms_data', JSON.stringify(rmsData));
+        }
+
+        // Generate random  first name (prioritizing Yash)
+        function getRandomFirstName() {
+            // 30% chance for Yash, 70% chance for other names
+            return Math.random() < 0.3 ? 'Yash' : _FIRST_NAMES[Math.floor(Math.random() * _FIRST_NAMES.length)];
+        }
+
+        // Generate random  last name
+        function getRandomLastName() {
+            return _LAST_NAMES[Math.floor(Math.random() * _LAST_NAMES.length)];
+        }
+
+        // Generate random  full name
+        function generateRandomName() {
+            const firstName = getRandomFirstName();
+            const lastName = getRandomLastName();
+            return `${firstName} ${lastName}`;
+        }
+
+        // Generate random  email
+        function generateRandomEmail(name) {
+            const domain = ['gmail.com', 'yahoo.com', 'outlook.com', 'company.com'][Math.floor(Math.random() * 4)];
+            const cleanName = name.toLowerCase().replace(/\s+/g, '.');
+            return `${cleanName}@${domain}`;
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            const toastContainer = document.getElementById('toastContainer');
+            if (!toastContainer) return;
+
+            const toast = document.createElement('div');
+            toast.className = `toast toast-${type}`;
+            toast.innerHTML = `
+                <div class="toast-content">
+                    <i class="fas ${type === 'success' ? 'fa-check-circle' : type === 'error' ? 'fa-exclamation-circle' : 'fa-info-circle'}"></i>
+                    <span>${message}</span>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">
+                    <i class="fas fa-times"></i>
+                </button>
+            `;
+
+            toastContainer.appendChild(toast);
+
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                if (toast.parentElement) {
+                    toast.remove();
+                }
+            }, 5000);
+        }
+
+        // Update UI
+        function updateUI() {
+            const data = loadData();
+
+            // Update current user display
+            const currentUserAvatar = document.getElementById('currentUserAvatar');
+            const currentUserName = document.getElementById('currentUserName');
+            const currentUserRole = document.getElementById('currentUserRole');
+
+            if (data.currentUser) {
+                if (currentUserAvatar) {
+                    currentUserAvatar.textContent = data.currentUser.name.charAt(0).toUpperCase();
+                }
+                if (currentUserName) {
+                    currentUserName.textContent = data.currentUser.name;
+                }
+                if (currentUserRole) {
+                    currentUserRole.textContent = `Role: ${data.currentUser.role || 'member'}`;
+                }
+            } else {
+                if (currentUserAvatar) {
+                    currentUserAvatar.innerHTML = '<i class="fas fa-user"></i>';
+                }
+                if (currentUserName) {
+                    currentUserName.textContent = 'No user set';
+                }
+                if (currentUserRole) {
+                    currentUserRole.textContent = 'Role: Not set';
+                }
+            }
+
+            // Update team members count
+            const membersCount = document.getElementById('membersCount');
+            if (membersCount) {
+                membersCount.textContent = `(${data.teamMembers.length})`;
+            }
+
+            // Update team members grid
+            const teamMembersGrid = document.getElementById('teamMembersGrid');
+            if (teamMembersGrid) {
+                if (data.teamMembers.length === 0) {
+                    teamMembersGrid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-state-icon">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <h4>No team members yet</h4>
+                            <p>Add some team members to get started!</p>
+                        </div>
+                    `;
+                } else {
+                    const membersHtml = data.teamMembers.map((member, index) => `
+                        <div class="member-card" data-index="${index}">
+                            <div class="member-avatar">
+                                ${member.name.charAt(0).toUpperCase()}
+                            </div>
+                            <div class="member-info">
+                                <h4>${member.name}</h4>
+                                <p>${member.email}</p>
+                                <span class="member-role">${member.role || 'member'}</span>
+                            </div>
+                            <div class="member-actions">
+                                <button class="btn btn-ghost btn-sm" onclick="editMember(${index})" title="Edit">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="btn btn-danger btn-sm" onclick="deleteMember(${index})" title="Delete">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+
+                    teamMembersGrid.innerHTML = membersHtml;
+                }
+            }
+        }
+
+        // Current user form handler
+        document.getElementById('currentUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('userName').value.trim();
+            const email = document.getElementById('userEmail').value.trim();
+            const role = document.getElementById('userRole').value;
+
+            if (!name || !email) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            const data = loadData();
+            data.currentUser = {
+                id: 1,
+                name: name,
+                email: email,
+                role: role
+            };
+
+            saveData(data);
+            updateUI();
+            showNotification('Current user saved successfully!', 'success');
+
+            // Clear form
+            this.reset();
+        });
+
+        // Team member form handler
+        document.getElementById('teamMemberForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('memberName').value.trim();
+            const email = document.getElementById('memberEmail').value.trim();
+            const role = document.getElementById('memberRole').value;
+
+            if (!name || !email) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            const data = loadData();
+
+            // Check if member already exists
+            const emailExists = data.teamMembers.some(member => member.email === email);
+            if (emailExists) {
+                showNotification('A member with this email already exists', 'error');
+                return;
+            }
+
+            const newMember = {
+                id: Date.now(), // Simple ID generation
+                name: name,
+                email: email,
+                role: role
+            };
+
+            data.teamMembers.push(newMember);
+            saveData(data);
+            updateUI();
+            showNotification('Team member added successfully!', 'success');
+
+            // Clear form
+            this.reset();
+        });
+
+        // Load random  user
+        function loadRandomUser() {
+            const name = generateRandomName();
+            const email = generateRandomEmail(name);
+
+            document.getElementById('userName').value = name;
+            document.getElementById('userEmail').value = email;
+            showNotification('Random  user generated!', 'success');
+        }
+
+        // Add random  member
+        function addRandomMember() {
+            const name = generateRandomName();
+            const email = generateRandomEmail(name);
+
+            document.getElementById('memberName').value = name;
+            document.getElementById('memberEmail').value = email;
+            showNotification('Random  member ready to add!', 'success');
+        }
+
+        // Add multiple random members
+        function addMultipleRandomMembers() {
+            const data = loadData();
+            const addedNames = [];
+
+            for (let i = 0; i < 5; i++) {
+                const name = generateRandomName();
+                const email = generateRandomEmail(name);
+
+                // Check if email already exists
+                const emailExists = [...data.teamMembers].some(member => member.email === email);
+                if (!emailExists) {
+                    const newMember = {
+                        id: Date.now() + i,
+                        name: name,
+                        email: email,
+                        role: 'member'
+                    };
+
+                    data.teamMembers.push(newMember);
+                    addedNames.push(name);
+                }
+            }
+
+            saveData(data);
+            updateUI();
+            showNotification(`Added ${addedNames.length} new  team members!`, 'success');
+        }
+
+        // Add full  development team
+        function addTeamPreset() {
+            const data = loadData();
+
+            const presetMembers = [
+                { name: 'Priya Sharma', role: 'manager', email: 'priya@company.com' },
+                { name: 'Amit Patel', role: 'member', email: 'amit@company.com' },
+                { name: 'Sneha Reddy', role: 'member', email: 'sneha@company.com' },
+                { name: 'Rahul Kumar', role: 'member', email: 'rahul@company.com' },
+                { name: 'Kavya Singh', role: 'member', email: 'kavya@company.com' },
+                { name: 'Arjun Gupta', role: 'member', email: 'arjun@company.com' }
+            ];
+
+            presetMembers.forEach(memberData => {
+                // Check if already exists
+                const exists = data.teamMembers.some(m => m.email === memberData.email);
+                if (!exists) {
+                    const newMember = {
+                        id: Date.now() + Math.random(),
+                        name: memberData.name,
+                        email: memberData.email,
+                        role: memberData.role
+                    };
+                    data.teamMembers.push(newMember);
+                }
+            });
+
+            saveData(data);
+            updateUI();
+            showNotification('Full  development team added!', 'success');
+        }
+
+        // Edit member
+        function editMember(index) {
+            const data = loadData();
+            const member = data.teamMembers[index];
+            if (!member) return;
+
+            // Populate form with member data
+            document.getElementById('memberName').value = member.name;
+            document.getElementById('memberEmail').value = member.email;
+            document.getElementById('memberRole').value = member.role || 'member';
+
+            // Change submit to update
+            const form = document.getElementById('teamMemberForm');
+            const submitBtn = form.querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-save"></i> Update Member';
+            submitBtn.onclick = function(e) {
+                e.preventDefault();
+                updateMember(index);
+            };
+
+            showNotification('Edit mode enabled - update member details', 'info');
+        }
+
+        // Update member
+        function updateMember(index) {
+            const name = document.getElementById('memberName').value.trim();
+            const email = document.getElementById('memberEmail').value.trim();
+            const role = document.getElementById('memberRole').value;
+
+            if (!name || !email) {
+                showNotification('Please fill in all required fields', 'error');
+                return;
+            }
+
+            const data = loadData();
+            data.teamMembers[index] = {
+                ...data.teamMembers[index],
+                name: name,
+                email: email,
+                role: role
+            };
+
+            saveData(data);
+            updateUI();
+
+            // Reset form
+            document.getElementById('teamMemberForm').reset();
+            const submitBtn = document.getElementById('teamMemberForm').querySelector('button[type="submit"]');
+            submitBtn.innerHTML = '<i class="fas fa-plus"></i> Add Member';
+            submitBtn.onclick = null;
+
+            showNotification('Member updated successfully!', 'success');
+        }
+
+        // Delete member
+        function deleteMember(index) {
+            if (!confirm('Are you sure you want to delete this team member?')) return;
+
+            const data = loadData();
+            data.teamMembers.splice(index, 1);
+            saveData(data);
+            updateUI();
+            showNotification('Team member deleted!', 'success');
+        }
+
+        // Clear all members
+        function clearAllMembers() {
+            if (!confirm('Are you sure you want to clear all team members?')) return;
+
+            const data = loadData();
+            data.teamMembers = [];
+            saveData(data);
+            updateUI();
+            showNotification('All team members cleared!', 'success');
+        }
+
+        // Export members data
+        function exportMembersData() {
+            const data = loadData();
+            const exportData = {
+                currentUser: data.currentUser,
+                teamMembers: data.teamMembers,
+                exportedAt: new Date().toISOString()
+            };
+
+            const blob = new Blob([JSON.stringify(exportData, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `rms-members-${new Date().toISOString().split('T')[0]}.json`;
+            a.click();
+
+            URL.revokeObjectURL(url);
+            showNotification('Members data exported!', 'success');
+        }
+
+        // Import members data
+        function importMembersData() {
+            document.getElementById('importFileInput').click();
+        }
+
+        // Handle import
+        function handleImport(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = function(e) {
+                try {
+                    const importData = JSON.parse(e.target.result);
+
+                    if (importData.currentUser || importData.teamMembers) {
+                        const data = loadData();
+
+                        if (importData.currentUser) {
+                            data.currentUser = importData.currentUser;
+                        }
+
+                        if (importData.teamMembers) {
+                            // Merge with existing, avoiding duplicates by email
+                            const existingEmails = new Set(data.teamMembers.map(m => m.email));
+                            const newMembers = importData.teamMembers.filter(m => !existingEmails.has(m.email));
+                            data.teamMembers = [...data.teamMembers, ...newMembers];
+                        }
+
+                        saveData(data);
+                        updateUI();
+                        showNotification(`Imported ${importData.teamMembers?.length || 0} members successfully!`, 'success');
+                    } else {
+                        showNotification('Invalid file format', 'error');
+                    }
+                } catch (error) {
+                    showNotification('Error reading file', 'error');
+                }
+            };
+
+            reader.readAsText(file);
+            event.target.value = ''; // Reset input
+        }
+
+        // Reset to defaults
+        function resetToDefaults() {
+            if (!confirm('Are you sure you want to reset everything to defaults? All data will be lost.')) return;
+
+            localStorage.removeItem(CURRENT_USER_KEY);
+            localStorage.removeItem(TEAM_MEMBERS_KEY);
+
+            // Reset RMS data too
+            const rmsData = JSON.parse(localStorage.getItem('rms_data')) || {};
+            delete rmsData.currentUser;
+            delete rmsData.teamMembers;
+            localStorage.setItem('rms_data', JSON.stringify(rmsData));
+
+            updateUI();
+            showNotification('Reset to defaults completed!', 'success');
+        }
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            updateUI();
+            showNotification('Member Manager loaded! Ready to manage your team.', 'success');
+        });
+
+        // Global functions for onclick handlers
+        window.loadRandomUser = loadRandomUser;
+        window.addRandomMember = addRandomMember;
+        window.addMultipleRandomMembers = addMultipleRandomMembers;
+        window.addTeamPreset = addTeamPreset;
+        window.editMember = editMember;
+        window.deleteMember = deleteMember;
+        window.clearAllMembers = clearAllMembers;
+        window.exportMembersData = exportMembersData;
+        window.importMembersData = importMembersData;
+        window.handleImport = handleImport;
+        window.resetToDefaults = resetToDefaults;
+    </script>
+
+    <style>
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .content-section {
+            margin-bottom: 30px;
+        }
+
+        .section-header {
+            margin-bottom: 20px;
+        }
+
+        .section-header h2 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--color-on-surface);
+            margin-bottom: 5px;
+        }
+
+        .section-header p {
+            color: var(--color-on-surface-variant);
+            font-size: 0.9rem;
+        }
+
+        .member-setup-card,
+        .member-form-card,
+        .members-list-card {
+            background: var(--color-surface);
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: var(--shadow-sm);
+            border: 1px solid var(--color-outline-variant);
+        }
+
+        .user-display {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 24px;
+            padding: 16px;
+            background: var(--color-surface-variant);
+            border-radius: 8px;
+        }
+
+        .user-avatar,
+        .member-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--color-primary);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 1.2rem;
+        }
+
+        .user-details h3,
+        .member-info h4 {
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-on-surface);
+        }
+
+        .user-details span,
+        .member-info p,
+        .member-role {
+            color: var(--color-on-surface-variant);
+            font-size: 0.9rem;
+        }
+
+        .member-role {
+            display: inline-block;
+            padding: 2px 8px;
+            background: var(--color-primary-container);
+            color: var(--color-on-primary-container);
+            border-radius: 12px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 16px;
+            margin-bottom: 20px;
+        }
+
+        .quick-actions-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+
+        .quick-action-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 20px;
+            background: var(--color-surface);
+            border: 1px solid var(--color-outline-variant);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quick-action-card:hover {
+            border-color: var(--color-primary);
+            box-shadow: var(--shadow-md);
+        }
+
+        .quick-action-card.danger:hover {
+            border-color: var(--color-error);
+        }
+
+        .action-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: var(--color-primary-container);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--color-primary);
+            font-size: 1.2rem;
+        }
+
+        .quick-action-card.danger .action-icon {
+            background: var(--color-error-container);
+            color: var(--color-error);
+        }
+
+        .action-content h4 {
+            margin: 0 0 4px 0;
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-on-surface);
+        }
+
+        .action-content p {
+            margin: 0;
+            color: var(--color-on-surface-variant);
+            font-size: 0.9rem;
+            line-height: 1.4;
+        }
+
+        .members-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 16px;
+        }
+
+        .member-card {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            padding: 16px;
+            background: var(--color-surface-variant);
+            border-radius: 8px;
+            border: 1px solid var(--color-outline-variant);
+        }
+
+        .member-actions {
+            margin-left: auto;
+            opacity: 0;
+            transition: opacity 0.2s ease;
+        }
+
+        .member-card:hover .member-actions {
+            opacity: 1;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .empty-state-icon {
+            font-size: 3rem;
+            color: var(--color-outline);
+            margin-bottom: 16px;
+        }
+
+        .empty-state h4 {
+            margin: 0 0 8px 0;
+            color: var(--color-on-surface);
+        }
+
+        .empty-state p {
+            margin: 0;
+            color: var(--color-on-surface-variant);
+        }
+
+        .list-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .list-header h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: var(--color-on-surface);
+        }
+
+        .count {
+            color: var(--color-on-surface-variant);
+            font-weight: 400;
+        }
+
+        /* Toast Notifications */
+        .toast-container {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            z-index: 1000;
+            max-width: 400px;
+        }
+
+        .toast {
+            background: var(--color-surface);
+            border: 1px solid var(--color-outline);
+            border-radius: 8px;
+            padding: 12px 16px;
+            margin-bottom: 8px;
+            box-shadow: var(--shadow-lg);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            animation: slideInRight 0.3s ease;
+        }
+
+        .toast-success {
+            border-color: var(--color-success);
+        }
+
+        .toast-error {
+            border-color: var(--color-error);
+        }
+
+        .toast-info {
+            border-color: var(--color-info);
+        }
+
+        .toast-content {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .toast-content i {
+            color: var(--color-primary);
+        }
+
+        .toast-success .toast-content i {
+            color: var(--color-success);
+        }
+
+        .toast-error .toast-content i {
+            color: var(--color-error);
+        }
+
+        .toast-info .toast-content i {
+            color: var(--color-primary);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            color: var(--color-on-surface-variant);
+            cursor: pointer;
+            padding: 4px;
+        }
+
+        @keyframes slideInRight {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .user-display {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .quick-actions-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .members-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .member-card {
+                flex-direction: column;
+                text-align: center;
+            }
+        }
+    </style>
+</body>
+</html>
