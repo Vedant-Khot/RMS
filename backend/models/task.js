@@ -5,26 +5,27 @@ const Schema = mongoose.Schema;
 const taskSchema = new Schema({
   description: {
     type: String,
-    required: true // The description is mandatory
+    required: true
   },
   completed: {
     type: Boolean,
-    default: false // By default, a new task is not completed
+    default: false
   },
   assignedTo: {
     type: String,
-    default: 'Unassigned' // Default value if no one is assigned
+    default: 'Unassigned'
   },
   project_id: {
     type: Schema.Types.ObjectId,
-    ref: 'Project', // Reference to a Project model
+    ref: 'Project',
     required: false
   }
 }, {
-  timestamps: true // Automatically adds `createdAt` and `updatedAt` fields
+  timestamps: true
 });
 
-// Create a model from the schema and export it
+// Create a model from the schema
 const Task = mongoose.model('Task', taskSchema);
 
-module.exports = Task;
+// CRITICAL: Export the model so other files can use it
+module.exports = Task; // <-- Check this line very carefully!
