@@ -1,22 +1,23 @@
-// 1. Import Packages
+// 1. Import Packages at the TOP
 const express = require('express');
 const mongoose = require('mongoose');
-const cors = require('cors'); // <-- 1. IMPORT THE CORS PACKAGE
+const cors = require('cors');
 require('dotenv').config();
-const Task = require('./models/task.js'); // Your model is already imported
 
-// 2. Create an Express App
+// CRITICAL: Import your Task model. This must be below the other imports.
+// The require statement returns what module.exports was set to.
+// So, the 'Task' constant should now hold your model.
+const Task = require('./models/Task'); 
+
+// 2. Create and configure the Express App
 const app = express();
-
-// 3. Add Middleware
+app.use(cors());
 app.use(express.json());
 
-app.use(cors()); // <-- 2. USE THE CORS MIDDLEWARE
-
-// 4. Define Port
+// 3. Define Port
 const PORT = process.env.PORT || 3000;
 
-// 5. Connect to MongoDB
+// 4. Connect to MongoDB
 const dbURI = process.env.MONGODB_URI;
 mongoose.connect(dbURI)
   .then(() => {
@@ -27,54 +28,41 @@ mongoose.connect(dbURI)
     console.error('Failed to connect to MongoDB', err);
   });
 
-// 6. API Routes
-
-// -- GET /tasks: Retrieve all tasks --
-// (No changes are needed here. It will automatically return the new fields)
+// 5. API Routes
+// This route handler needs to be able to "see" the Task constant defined above.
 app.get('/tasks', async (req, res) => {
   try {
-    const tasks = await Task.find({});
+    // If 'Task' is not defined here, you will get the ReferenceError.
+    const tasks = await Task.find({}); 
     res.status(200).json(tasks);
   } catch (error) {
-    console.error('Error fetching tasks:', error);
+    console.error("ERROR FETCHING TASKS:", error);
     res.status(500).json({ message: 'Error fetching tasks', error: error });
   }
 });
 
-// -- POST /tasks: Create a new task --
-// --- THIS IS THE UPDATED SECTION ---
+// (Your other routes like POST /tasks would go here)
 app.post('/tasks', async (req, res) => {
   try {
-    // Destructure all possible fields from the request body
     const { description, assignedTo, project_id } = req.body;
-
-    // The description is still the only mandatory field
     if (!description) {
       return res.status(400).json({ message: 'Description is required' });
     }
-
-    // Create a new task object with the provided data
-    const newTask = new Task({
-      description,   // The description from the request
-      assignedTo,    // The assignedTo from the request (will use schema default if not provided)
-      project_id     // The project_id from the request (will be null if not provided)
-    });
-
-    const savedTask = await newTask.save(); // Save the new task to the DB
-    res.status(201).json(savedTask); // Respond with the created task
+    const newTask = new Task({ description, assignedTo, project_id });
+    const savedTask = await newTask.save();
+    res.status(201).json(savedTask);
   } catch (error) {
+    console.error("ERROR CREATING TASK:", error);
     res.status(500).json({ message: 'Error creating task', error: error });
   }
 });
 
-
-// 7. Root Route
+// 6. Root Route
 app.get('/', (req, res) => {
-  res.json({ message: "Welcome to our updated Task API!" });
+  res.json({ message: "Welcome to our Task API!" });
 });
 
-
-// 8. Function to start the server
+// 7. Function to start the server
 function startServer() {
   app.listen(PORT, () => {
     console.log(`Server is running on http://localhost:${PORT}`);
