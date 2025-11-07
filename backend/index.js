@@ -7,7 +7,7 @@ require('dotenv').config();
 // CRITICAL: Import your Task model. This must be below the other imports.
 // The require statement returns what module.exports was set to.
 // So, the 'Task' constant should now hold your model.
-const Task = require('./models/Task'); 
+const Task = require('./models/task'); 
 
 // 2. Create and configure the Express App
 const app = express();
