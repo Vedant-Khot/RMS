@@ -52,38 +52,71 @@ body {
 }
 
 .task-card:hover {
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 15px 15px -1px rgba(0, 0, 0, 0.1);
 }
 
 .task-card.completed {
     opacity: 0.7;
 }
 
+/* Enhanced priority badges */
 .priority-badge {
-    display: inline-block;
-    min-width: 4rem;
-    text-align: center;
-    text-transform: capitalize;
-    padding: 0.25rem 0.75rem;
-    border-radius: 9999px;
-    font-size: 0.75rem;
-    font-weight: 500;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .2rem .6rem;
+  border-radius: 9999px;
+  font-size: .75rem;
+  font-weight: 600;
+  text-transform: capitalize;
+  line-height: 1;
+  box-shadow: 0 4px 10px rgba(16,24,40,0.04);
+  border: 1px solid rgba(15,23,42,0.04);
 }
 
+/* colored dot using pseudo-element */
+.priority-badge::before {
+  content: "";
+  display: inline-block;
+  width: .5rem;
+  height: .5rem;
+  border-radius: 50%;
+  flex: 0 0 .5rem;
+  box-shadow: 0 1px 0 rgba(0,0,0,0.06) inset;
+}
+
+/* High: red */
 .priority-high {
-  background-color: var(--danger-button);
-  color: var(--bg-secondary);
+  background-color: rgba(239,68,68,0.1);
+  color: #b91c1c; /* darker red text */
+  border-color: rgba(239,68,68,0.12);
 }
+.priority-high::before { background-color: #ef4444; }
 
+/* Medium: yellow/amber */
 .priority-medium {
-  background-color: var(--warning);
-  color: var(--text-primary);
+  background-color: rgba(234,179,8,0.08);
+  color: #92400e;
+  border-color: rgba(234,179,8,0.12);
 }
+.priority-medium::before { background-color: #eab308; }
 
+/* Low: green */
 .priority-low {
-  background-color: var(--success);
-  color: var(--bg-secondary);
+  background-color: rgba(34,197,94,0.08);
+  color: #166534;
+  border-color: rgba(34,197,94,0.12);
 }
+.priority-low::before { background-color: #16a34a; }
+
+/* Dark mode adjustments for better contrast */
+:root[class~="dark"] .priority-badge {
+  box-shadow: none;
+  border-color: rgba(255,255,255,0.04);
+}
+:root[class~="dark"] .priority-high { background-color: rgba(241,245,249,0.03); color: #fecaca; }
+:root[class~="dark"] .priority-medium { background-color: rgba(241,245,249,0.03); color: #fcd34d; }
+:root[class~="dark"] .priority-low { background-color: rgba(241,245,249,0.03); color: #86efac; }
 
 .task-checkbox {
     appearance: none;
@@ -115,7 +148,7 @@ body {
 
 .modal-overlay {
   background-color: rgba(0, 0, 0, 0.5);
-  backdrop-filter: blur(4px);
+  backdrop-filter: blur(14px);
 }
 
 .modal-content {
@@ -136,37 +169,98 @@ input:focus, textarea:focus, select:focus {
 }
 
 .task-item {
-    background-color: var(--accent-bg);
-    border: 1px solid var(--border-color);
-}
-
-/* Fix task card layout */
-.task-card {
-    margin-bottom: 1rem;
     background-color: var(--bg-accent);
     border: 1px solid var(--border-color);
     border-radius: 0.5rem;
-    padding: 1.25rem;
-    transition: all 0.2s ease;
+    padding: 1rem;
+    transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
 }
 
-/* Prevent text overflow */
-.task-card h3 {
-    word-break: break-word;
+.task-item {
+  cursor: pointer;
 }
 
-.task-card p {
-    white-space: pre-wrap;
-    word-break: break-word;
+/* show clear focus when keyboard navigating */
+.task-item:focus {
+  outline: 3px solid rgba(37,99,235,0.14);
+  outline-offset: 3px;
 }
 
-/* Better modal handling */
-#taskModal {
-    backdrop-filter: blur(4px);
+/* ensure inner interactive elements keep their default cursor */
+.task-item input,
+.task-item button,
+.task-item a,
+.task-item select,
+.task-item textarea {
+  cursor: pointer;
+}
+
+/* Hover lift + shadow for task cards/items */
+.task-item,
+.task-card {
+  will-change: transform, box-shadow;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, opacity 0.18s ease;
+}
+
+/* Visual lift on hover */
+.task-item:hover,
+.task-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 30px rgba(16,24,40,0.12);
+}
+
+/* Slightly subtler shadow in dark mode */
+:root[class~="dark"] .task-item:hover,
+:root[class~="dark"] .task-card:hover {
+  box-shadow: 0 10px 24px rgba(0,0,0,0.45);
+}
+
+/* Respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .task-item,
+  .task-card {
+    transition: none !important;
+    transform: none !important;
+    box-shadow: none !important;
+  }
+}
+
+/* Modal visibility control — prefer toggling the 'hidden' class (keeps layout stable) */
+#taskModal.hidden {
+    display: none;
+}
+
+#taskModal:not(.hidden) {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    inset: 0;
     z-index: 50;
+    background-color: rgba(0,0,0,0.35);
+    backdrop-filter: blur(4px);
+    padding: 1rem;
 }
 
-#taskModal .bg-secondary {
-    max-height: calc(100vh - 2rem);
-    overflow-y: auto;
+/* Modal inner content wrapper for consistent sizing and transitions */
+.modal-content {
+    background-color: var(--bg-secondary);
+    border: 1px solid var(--border-color);
+    border-radius: 0.5rem;
+    width: 100%;
+    max-width: 640px;
+    padding: 1.25rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+    transition: transform 0.18s ease, opacity 0.18s ease;
+    transform: translateY(0);
+}
+
+/* small visual cue when modal appears */
+#taskModal:not(.hidden) .modal-content {
+    transform: translateY(-6px);
+}
+
+/* make overlay clicks clear and mobile padding handled */
+#taskModal {
+    box-sizing: border-box;
 }
