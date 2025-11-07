@@ -3,7 +3,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors'); // <-- 1. IMPORT THE CORS PACKAGE
 require('dotenv').config();
-// const Task = require('./models/Task'); // Your model is already imported
+const Task = require('./models/Task'); // Your model is already imported
 
 // 2. Create an Express App
 const app = express();
