@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Clear RMS Local Storage</title>
+</head>
+<body>
+    <h2>Clear RMS Local Storage</h2>
+    <p>This will remove all saved data from your RMS application and reset it to a clean state.</p>
+    <button onclick="clearStorage()">Clear Storage & Restart App</button>
+
+    <script>
+        function clearStorage() {
+            localStorage.removeItem('rms_data');
+            alert('LocalStorage cleared! Redirecting to RMS...');
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
