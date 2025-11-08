@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Clear All Tasks</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/remixicon/4.5.0/remixicon.min.css">
+  <link rel="stylesheet" href="../assets/css/Taskpage.css">
+</head>
+<body class="bg-primary text-primary">
+  <div class="min-h-screen flex items-center justify-center p-6">
+    <div class="bg-secondary border border-input rounded-lg max-w-lg w-full p-6">
+      <h1 class="text-xl font-bold mb-2">Delete all tasks</h1>
+      <p class="text-secondary mb-4">This will permanently remove all saved tasks from your browser's local storage. This action cannot be undone.</p>
+
+      <div id="status" class="mb-4 text-sm text-secondary">Are you sure you want to delete all tasks?</div>
+
+      <div class="flex justify-end space-x-3">
+        <a href="TaskPage.html" id="cancelBtn" class="px-4 py-2 border border-input rounded-md text-sm">Cancel</a>
+        <button id="deleteAllBtn" class="px-4 py-2 bg-[var(--danger-button)] text-white rounded-md text-sm inline-flex items-center">
+          <i class="ri-delete-bin-2-line mr-2"></i> Delete All
+        </button>
+      </div>
+
+      <div id="doneActions" class="mt-4 hidden">
+        <p class="text-sm text-primary mb-2">All tasks have been deleted.</p>
+        <a href="TaskPage.html" class="px-4 py-2 bg-[var(--primary-button)] text-white rounded-md text-sm">Back to Tasks</a>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // clear tasks from localStorage and update UI
+    (function () {
+      const deleteBtn = document.getElementById('deleteAllBtn');
+      const status = document.getElementById('status');
+      const doneActions = document.getElementById('doneActions');
+
+      deleteBtn.addEventListener('click', function () {
+        try {
+          localStorage.removeItem('tasks');
+          status.textContent = 'All tasks removed from local storage.';
+          status.classList.remove('text-secondary');
+          status.classList.add('text-primary');
+          doneActions.classList.remove('hidden');
+          // optionally inform the main page by setting a flag
+          localStorage.setItem('tasksClearedAt', new Date().toISOString());
+        } catch (err) {
+          status.textContent = 'Failed to clear tasks. Check browser storage permissions.';
+          status.classList.remove('text-secondary');
+          status.classList.add('text-danger');
+        }
+      });
+    }());
+  </script>
+</body>
+</html>
