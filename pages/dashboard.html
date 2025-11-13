@@ -11,6 +11,9 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
+    <!-- Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
     <!-- Styles -->
     <link rel="stylesheet" href="../assets/css/reset.css">
     <link rel="stylesheet" href="../assets/css/variables.css">
@@ -24,12 +27,6 @@
     <link rel="stylesheet" href="../assets/css/animations.css">
     <link rel="stylesheet" href="../assets/css/responsive.css">
     <link rel="stylesheet" href="../assets/css/main.css">
-
-    <!-- Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-
-    <!-- Third-party Libraries -->
-    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 </head>
 <body class="rms-app">
     <!-- Navigation -->
@@ -50,14 +47,13 @@
                 </div>
 
             <div class="navbar-actions">
-
-                        <button class="btn btn-secondary" id="themeToggle" title="Toggle Theme">
-                            <i class="fas fa-moon"></i>
-                        </button>
-                    <button class="btn btn-secondary" id="notificationsBtn" title="Notifications">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge" id="notificationBadge"></span>
-                    </button>
+                <button class="btn btn-secondary" id="themeToggle" title="Toggle Theme">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="btn btn-secondary" id="notificationsBtn" title="Notifications">
+                    <i class="fas fa-bell"></i>
+                    <span class="notification-badge" id="notificationBadge"></span>
+                </button>
 
                     <!-- Notifications Panel -->
                     <div class="notifications-panel" id="notificationsPanel">
@@ -191,6 +187,16 @@
                             <span class="setting-label">Notify about overdue items</span>
                         </label>
                     </div>
+
+                    <div class="setting-group">
+                        <button class="btn btn-secondary" id="testEmailBtn" style="width: 100%;">
+                            <i class="fas fa-envelope"></i>
+                            Send Test Email
+                        </button>
+                        <small style="color: var(--color-on-surface-variant); font-size: var(--font-size-xs); margin-top: var(--space-1);">
+                            Test email functionality (opens email client if not configured)
+                        </small>
+                    </div>
                 </div>
 
                 <!-- Account Management -->
@@ -278,8 +284,6 @@
             </div>
         </div>
     </div>
-
-<!-- Login/Authentication temporarily removed - will be added later -->
 
     <!-- Main Content -->
     <main class="main-content" id="mainContent">
@@ -701,35 +705,6 @@
     <div class="loading-overlay" id="loadingOverlay">
         <div class="loading-spinner"></div>
     </div>
-
-    <!-- Scripts - Load in dependency order -->
-    <script src="../assets/js/users.js"></script>
-    <script src="../assets/js/User.js"></script>
-    <script src="../assets/js/Project.js"></script>
-    <script src="../assets/js/Member.js"></script>
-    <script src="../assets/js/Task.js"></script>
-    <script src="../assets/js/Notification.js"></script>
-    <script src="../assets/js/StorageService.js"></script>
-    <script src="../assets/js/ValidationService.js"></script>
-    <script src="../assets/js/FormValidator.js"></script>
-    <script src="../assets/js/apiservices.js"></script>
-    <script src="../assets/js/NotificationService.js"></script>
-    <script src="../assets/js/members.js"></script>
-    <script src="../assets/js/helpers.js"></script>
-    <script src="../assets/js/constants.js"></script>
-    <script src="../assets/js/formatters.js"></script>
-    <script src="../assets/js/EmailService.js"></script>
-    <script src="../assets/js/AppController.js"></script>
-    <script src="../assets/js/ProjectController.js"></script>
-    <script src="../assets/js/MemberController.js"></script>
-    <script src="../assets/js/TaskController.js"></script>
-    <script src="../assets/js/AnalyticsController.js"></script>
-    <script src="../assets/js/ProjectView.js"></script>
-    <script src="../assets/js/MemberView.js"></script>
-    <script src="../assets/js/TaskView.js"></script>
-    <script src="../assets/js/AnalyticsView.js"></script>
-    <script src="../assets/js/app.js"></script>
-
 
 </body>
 </html>
