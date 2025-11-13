@@ -1,15 +1,177 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="assets\css\parth.css">
-    <link rel="stylesheet" href="assets\css\reset.css">
-
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI Auth Portal</title>
+  <link rel="stylesheet" href="assets\css\parth.css">
 </head>
 <body>
-    <h1>Hello, World!</h1>
-    <p>This is a simple HTML document.</p>
+
+  <!-- ANIMATED BACKGROUND -->
+  <div class="background">
+    <span style="--i:1"></span><span style="--i:2"></span><span style="--i:3"></span>
+    <span style="--i:4"></span><span style="--i:5"></span><span style="--i:6"></span>
+    <span style="--i:7"></span><span style="--i:8"></span><span style="--i:9"></span>
+    <span style="--i:10"></span><span style="--i:11"></span><span style="--i:12"></span>
+    <span style="--i:13"></span><span style="--i:14"></span><span style="--i:15"></span>
+    <span style="--i:16"></span><span style="--i:17"></span><span style="--i:18"></span>
+    <span style="--i:19"></span><span style="--i:20"></span>
+  </div>
+
+  <!-- MAIN AUTH CONTAINER -->
+  <div class="container" id="authBox">
+
+    <!-- LOGIN FORM -->
+    <form id="loginForm" class="active">
+      <h2>Login</h2>
+      <div class="input-group">
+        <label>Email / Mobile No.</label>
+        <input type="text" placeholder="Enter your email or mobile" required />
+      </div>
+      <div class="input-group">
+        <label>Password</label>
+        <input type="password" placeholder="Enter password" required />
+      </div>
+      <button type="button" onclick="showWelcome()">Login</button>
+
+      <div class="alt-link">
+        <a href="#" id="goSignup">New User? Sign Up</a>
+      </div>
+      <div class="alt-link">
+        <a href="#" id="goReset">Forgot Password?</a>
+      </div>
+    </form>
+
+    <!-- SIGNUP FORM -->
+    <form id="signupForm">
+      <h2>Create Account</h2>
+      <div class="input-group">
+        <label>Full Name</label>
+        <input type="text" placeholder="Enter your name" required />
+      </div>
+      <div class="input-group">
+        <label>Email ID</label>
+        <input type="email" placeholder="Enter your email" required />
+      </div>
+      <div class="input-group">
+        <label>Set Password</label>
+        <input type="password" id="password" placeholder="Create password" required />
+        <div class="strength"><span id="strengthBar"></span></div>
+      </div>
+      <div class="input-group">
+        <label>Confirm Password</label>
+        <input type="password" placeholder="Re-enter password" required />
+      </div>
+      <div class="input-group">
+        <label>Mobile Number</label>
+        <input type="tel" id="mobile" placeholder="Enter your mobile number" required />
+      </div>
+      <button type="button" onclick="verifyOtp()">Sign Up</button>
+      <div class="alt-link">
+        Already have an account? <a href="#" id="goLogin1">Login</a>
+      </div>
+    </form>
+
+    <!-- OTP FORM -->
+    <form id="otpForm">
+      <h2>OTP Verification</h2>
+      <div class="input-group">
+        <label>Enter OTP</label>
+        <input type="text" placeholder="Enter received OTP" required />
+      </div>
+      <button type="button" onclick="showWelcome()">Verify & Continue</button>
+      <div class="alt-link">
+        Back to <a href="#" id="goLogin2">Login</a>
+      </div>
+    </form>
+
+    <!-- RESET PASSWORD -->
+    <form id="resetForm">
+      <h2>Reset Password</h2>
+      <div class="input-group">
+        <label>Mobile Number</label>
+        <input type="tel" placeholder="Enter your mobile" required />
+      </div>
+      <div class="input-group">
+        <label>OTP</label>
+        <input type="text" placeholder="Enter received OTP" required />
+      </div>
+      <div class="input-group">
+        <label>New Password</label>
+        <input type="password" placeholder="Enter new password" required />
+      </div>
+      <button type="button" onclick="showWelcome()">Reset Password</button>
+      <div class="alt-link">
+        Back to <a href="#" id="goLogin3">Login</a>
+      </div>
+    </form>
+
+    <!-- WELCOME SCREEN -->
+    <div class="welcome" id="welcomeScreen">
+      <h2>Welcome, Coder!</h2>
+      <p>“Keep coding like a creator of the future.  
+      Every line you write builds something the world hasn’t seen yet.”</p>
+      <p style="margin-top:15px; color:#1e90ff;">– Parth Karpe | AI Innovator</p>
+    </div>
+  </div>
+
+  <!-- SCRIPT -->
+  <script>
+    const forms = {
+      login: document.getElementById("loginForm"),
+      signup: document.getElementById("signupForm"),
+      otp: document.getElementById("otpForm"),
+      reset: document.getElementById("resetForm"),
+      welcome: document.getElementById("welcomeScreen"),
+    };
+
+    document.getElementById("goSignup").onclick = () => showForm("signup");
+    document.getElementById("goLogin1").onclick = () => showForm("login");
+    document.getElementById("goLogin2").onclick = () => showForm("login");
+    document.getElementById("goLogin3").onclick = () => showForm("login");
+    document.getElementById("goReset").onclick = () => showForm("reset");
+
+    function showForm(name) {
+      Object.values(forms).forEach(f => f.classList.remove("active"));
+      forms[name].classList.add("active");
+    }
+
+    function verifyOtp() {
+      showForm("otp");
+    }
+
+    function showWelcome() {
+      Object.values(forms).forEach(f => f.classList.remove("active"));
+      forms.welcome.classList.add("active");
+    }
+
+    // Password Strength Indicator
+    const password = document.getElementById("password");
+    const strengthBar = document.getElementById("strengthBar");
+
+    password.addEventListener("input", () => {
+      const val = password.value;
+      let strength = 0;
+      if (val.match(/[a-z]+/)) strength += 1;
+      if (val.match(/[A-Z]+/)) strength += 1;
+      if (val.match(/[0-9]+/)) strength += 1;
+      if (val.match(/[$@#&!]+/)) strength += 1;
+
+      if (val.length < 6) {
+        strengthBar.style.width = "25%";
+        strengthBar.style.background = "red";
+      } else if (strength < 2) {
+        strengthBar.style.width = "50%";
+        strengthBar.style.background = "orange";
+      } else if (strength < 4) {
+        strengthBar.style.width = "75%";
+        strengthBar.style.background = "yellow";
+      } else {
+        strengthBar.style.width = "100%";
+        strengthBar.style.background = "lime";
+      }
+    });
+  </script>
 </body>
 </html>

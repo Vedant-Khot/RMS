@@ -1,0 +1,280 @@
+/* ==========================
+   GLOBAL STYLING
+========================== */
+:root {
+  --blue: #0a3d62;
+  --light-blue: #1e90ff;
+  --white: #ffffff;
+  --black: #0f0f0f;
+  --neon: #00ffff;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  background: radial-gradient(circle at 20% 20%, #0a3d62, #000000);
+  /* hide the page scrollbar - we will ensure the content itself fits the viewport */
+  overflow: hidden;
+  /* use min-height so the background covers the screen while allowing the container to size responsively */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--white);
+  /* small padding so the container has space from viewport edges on tiny devices */
+  padding: 12px;
+}
+
+/* ANIMATED BACKGROUND */
+.background {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  /* don't capture pointer events so inputs remain interactive */
+  pointer-events: none;
+}
+.background span {
+  position: absolute;
+  display: block;
+  width: 15px;
+  height: 15px;
+  background: rgba(30, 144, 255, 0.5);
+  animation: move 10s linear infinite;
+  bottom: -150px;
+  border-radius: 50%;
+}
+@keyframes move {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(-1000px) rotate(720deg);
+    opacity: 0;
+  }
+}
+.background span:nth-child(odd) {
+  background: rgba(0, 255, 255, 0.6);
+}
+.background span:nth-child(even) {
+  background: rgba(255, 255, 255, 0.2);
+}
+.background span {
+  left: calc(100% * var(--i) / 20);
+  animation-delay: calc(var(--i) * 0.4s);
+}
+
+/* MAIN BOX */
+.container {
+  position: relative;
+  z-index: 1;
+  width: 90%;
+  max-width: 525px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  box-shadow: 0 0 30px rgba(0, 255, 255, 0.2);
+  backdrop-filter: blur(15px);
+  transition: 0.6s ease-in-out;
+  overflow: hidden;
+  padding: 40px;
+  animation: fadeIn 1s ease-in-out;
+}
+
+/* keep the container from exceeding the viewport height and allow internal scrolling */
+.container {
+  /* increase visible box length so buttons are visible without scrolling */
+  min-height: 650px;
+  /* allow container to grow but never force internal scrolling */
+  max-height: calc(100vh - 32px);
+  overflow: visible;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* FORMS */
+form {
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 50px;
+  padding: 40px;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateX(100%);
+  transition: all 0.5s ease;
+}
+
+form.active {
+  opacity: 1;
+  pointer-events: all;
+  transform: translateX(0);
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 25px;
+  color: var(--neon);
+  letter-spacing: 1px;
+}
+
+.input-group {
+  margin-bottom: 18px;
+}
+
+label {
+  display: block;
+  font-size: 14px;
+  margin-bottom: 6px;
+  color: var(--light-blue);
+}
+
+input {
+  width: 100%;
+  padding: 10px;
+  border: 2px solid transparent;
+  border-radius: 8px;
+  background-color: rgba(255, 255, 255, 0.15);
+  color: var(--white);
+  font-size: 14px;
+  transition: 0.3s ease;
+}
+
+input:focus {
+  border-color: var(--light-blue);
+  background-color: rgba(255, 255, 255, 0.25);
+  outline: none;
+  box-shadow: 0 0 10px var(--light-blue);
+}
+
+/* PASSWORD STRENGTH */
+.strength {
+  height: 5px;
+  width: 100%;
+  border-radius: 5px;
+  margin-top: 5px;
+  background: rgba(255, 255, 255, 0.3);
+}
+.strength span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  border-radius: 5px;
+  transition: 0.4s;
+}
+
+/* BUTTONS */
+button {
+  width: 100%;
+  background: var(--light-blue);
+  border: none;
+  color: var(--white);
+  padding: 12px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 15px;
+  transition: all 0.3s ease;
+}
+
+button:hover {
+  transform: scale(1.05);
+  background: #00bfff;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.4);
+}
+
+.alt-link {
+  text-align: center;
+  margin-top: 15px;
+  font-size: 14px;
+}
+
+.alt-link a {
+  color: var(--light-blue);
+  text-decoration: none;
+  transition: 0.3s;
+}
+.alt-link a:hover {
+  text-decoration: underline;
+}
+
+/* WELCOME PAGE */
+.welcome {
+  /* position the welcome screen like the forms so it doesn't unintentionally sit above them
+     and block clicks when inactive. Also avoid capturing pointer events unless active. */
+  position: absolute;
+  width: 100%;
+  left: 0;
+  top: 25px;
+  padding-left: 10px;
+  padding-right: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  height: 100%;
+  opacity: 0;
+  transform: scale(0.8);
+  transition: all 0.5s ease;
+  pointer-events: none;
+}
+.welcome.active {
+  opacity: 1;
+  transform: scale(1);
+  pointer-events: all;
+}
+.welcome h2 {
+  color: var(--neon);
+  font-size: 26px;
+  margin-bottom: 10px;
+}
+.welcome p {
+  color: var(--white);
+  font-size: 15px;
+  line-height: 1.5;
+  opacity: 0.9;
+}
+
+@media (max-width: 380px) {
+  .container {
+    width: 85%;
+    padding: 25px;
+  }
+}
+
+/* If the viewport is short (e.g., small mobile with keyboard), align to top and allow page scrolling */
+@media (max-height: 725px) {
+  /* for very short viewports reduce spacing and padding so the whole form fits without scrollbars */
+  body {
+    align-items: center;
+    padding-top: 8px;
+    padding-bottom: 8px;
+  }
+  .container {
+    /* reduce padding and minimum height on very short screens to avoid overflow */
+    padding: 18px;
+    min-height: 650px;
+    max-height: calc(100vh - 16px);
+  }
+  form {
+    padding: 18px;
+  }
+}
