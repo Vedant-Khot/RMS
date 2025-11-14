@@ -162,7 +162,7 @@
 
                     <div class="setting-group">
                         <label class="setting-item">
-                            <input type="checkbox" id="sidebarSMSNotifications">
+                            <input type="checkbox" id="sidebarSmsNotifications">
                             <span class="setting-label">Enable SMS notifications</span>
                         </label>
                     </div>
@@ -188,15 +188,7 @@
                         </label>
                     </div>
 
-                    <div class="setting-group">
-                        <button class="btn btn-secondary" id="testEmailBtn" style="width: 100%;">
-                            <i class="fas fa-envelope"></i>
-                            Send Test Email
-                        </button>
-                        <small style="color: var(--color-on-surface-variant); font-size: var(--font-size-xs); margin-top: var(--space-1);">
-                            Test email functionality (opens email client if not configured)
-                        </small>
-                    </div>
+
                 </div>
 
                 <!-- Account Management -->
@@ -454,49 +446,11 @@
                         <small class="form-help">You will automatically be added as the project leader. Select additional team members to invite.</small>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="projectDeadline">Deadline *</label>
-                            <input type="date" class="form-input" id="projectDeadline" required>
-                            <div class="form-error" id="projectDeadlineError"></div>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="projectPriority">Priority Level</label>
-                            <select class="form-select" id="projectPriority">
-                                <option value="normal">Normal</option>
-                                <option value="low">Low</option>
-                                <option value="high">High</option>
-                                <option value="urgent">Urgent</option>
-                            </select>
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="projectStatus">Initial Status</label>
-                            <select class="form-select" id="projectStatus">
-                                <option value="Planning">Planning</option>
-                                <option value="In Progress">In Progress</option>
-                                <option value="Review">Review</option>
-                                <option value="On Hold">On Hold</option>
-                                <option value="Completed">Completed</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="projectBudget">Budget (Optional)</label>
-                            <input type="number" class="form-input" id="projectBudget" placeholder="0.00" min="0" step="0.01">
-                        </div>
-                    </div>
-
                     <div class="form-group">
-                        <label class="form-label" for="projectTags">Tags (Optional)</label>
-                        <input type="text" class="form-input" id="projectTags" placeholder="web, mobile, design, development" data-role="tags">
-                        <small style="color: var(--color-on-surface-variant); font-size: var(--font-size-xs); margin-top: var(--space-1);">Separate tags with commas</small>
+                        <label class="form-label" for="projectDeadline">Deadline *</label>
+                        <input type="date" class="form-input" id="projectDeadline" required>
+                        <div class="form-error" id="projectDeadlineError"></div>
                     </div>
-
-
                 </form>
             </div>
 
@@ -548,8 +502,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label" for="taskDescription">Detailed Description</label>
-                        <textarea class="form-textarea" id="taskDescription" rows="3" placeholder="Provide detailed task requirements and instructions..."></textarea>
+                        <label class="form-label" for="taskDescription">Description</label>
+                        <textarea class="form-textarea" id="taskDescription" rows="3" placeholder="Provide task details..."></textarea>
                         <div class="form-error" id="taskDescriptionError"></div>
                     </div>
 
@@ -561,34 +515,9 @@
                         <div class="form-error" id="taskAssignedToError"></div>
                     </div>
 
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="taskPriority">Priority</label>
-                            <select class="form-select" id="taskPriority">
-                                <option value="normal">Normal</option>
-                                <option value="low">Low</option>
-                                <option value="high">High</option>
-                                <option value="urgent">Urgent</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label" for="taskDate">Due Date</label>
-                            <input type="date" class="form-input" id="taskDate">
-                        </div>
-                    </div>
-
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label class="form-label" for="taskHours">Estimated Hours</label>
-                            <input type="number" class="form-input" id="taskHours" step="0.5" min="0.5" max="24" placeholder="4.0">
-                        </div>
-                    </div>
-
                     <div class="form-group">
-                        <label class="form-label" for="taskTags">Tags (Optional)</label>
-                        <input type="text" class="form-input" id="taskTags" placeholder="urgent, backend, testing" data-role="tags">
-                        <small style="color: var(--color-on-surface-variant); font-size: var(--font-size-xs); margin-top: var(--space-1);">Separate tags with commas</small>
+                        <label class="form-label" for="taskDate">Due Date</label>
+                        <input type="date" class="form-input" id="taskDate">
                     </div>
                 </form>
             </div>
@@ -707,4 +636,6 @@
     </div>
 
 </body>
+<!-- script -->
+<script src="../assets/js/dashboard.js"></script>
 </html>
