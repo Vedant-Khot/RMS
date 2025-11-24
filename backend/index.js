@@ -1,3 +1,5 @@
+
+
 // 1. Import Packages
 const express = require('express');
 const mongoose = require('mongoose');
@@ -16,10 +18,16 @@ app.use(express.json());
 
 // 3. Define Port
 const PORT = process.env.PORT || 3000;
-
 // 4. Connect to MongoDB
-// ... (Your existing connection code remains the same)
-
+const dbURI = process.env.MONGODB_URI;
+mongoose.connect(dbURI)
+  .then(() => {
+    console.log('Successfully connected to MongoDB Atlas!');
+    startServer();
+  })
+  .catch((err) => {
+    console.error('Failed to connect to MongoDB', err);
+  });
 // 5. --- NEW: Use API Routers ---
 // Mount the routers on specific URL paths
 app.use('/api/tasks', taskRoutes); // Example for your old tasks
@@ -32,5 +40,8 @@ app.get('/', (req, res) => {
   res.json({ message: "Welcome to the Main API!" });
 });
 
-// 7. Function to start the server
-// ... (Your existing startServer function remains the same)
+function startServer() {
+  app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
